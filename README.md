@@ -24,6 +24,8 @@ RoRの開発・Ruby自体初めてなので~~（本当はScalaやりたい）~~�
 
 ## 使い方
 
+ソースは[コチラ](https://github.com/omiend/my_strongest_ror)
+
 #### Docker for Macのインストール
 
 [Docker for Mac](https://www.docker.com/docker-mac)からDocker for Macをインストール。
@@ -31,11 +33,10 @@ RoRの開発・Ruby自体初めてなので~~（本当はScalaやりたい）~~�
 #### git clone
 
 ```
-git clone 
+git@github.com:omiend/my_strongest_ror.git
 ```
 
 #### docker-compose up
-
 
 ```
 $ cd employees/docker
