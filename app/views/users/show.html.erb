@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <%= image_tag @user.avatar.thumb %>
+  <%= image_tag @user.avatar %>
+</p>
+
+<p>
   <strong>Name:</strong>
   <%= @user.name %>
 </p>

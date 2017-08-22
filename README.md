@@ -106,6 +106,9 @@ $ rails s
 
 
 
+
+
+
 ## かんたんなアプリの作成
 
 例として、従業員を管理するかんたんなアプリを作成する
@@ -170,6 +173,9 @@ $ $ rails db:migrate
 #### アプリ動作確認
 
 `rails s` で立ち上げ、[localhost:3000](http://localhost:3000/users)にアクセスし、usersテーブルにデータが保存出来る様にフォームが動けばOK。
+
+
+
 
 
 
@@ -249,6 +255,11 @@ end
 
 
 
+
+
+
+---
+
 以上、ここまでがrailsの基本的なアプリ作成の流れ。
 
 
@@ -259,7 +270,7 @@ end
 
 
 
----
+
 
 ## Docker周りの環境構築
 
@@ -514,6 +525,21 @@ $ docker exec employees_app rails db:migrate
 
 改めて、[localhost:3000](http://localhost:3000/employees)にアクセスし、employeesテーブルにデータが保存出来る様にフォームが動けばOK。
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## minio(s3)にファイルをアップロードする機能の実装
 
 基本的にS3へのアップロード実装方法を検索すれば、いくらでもでてくる。
@@ -544,29 +570,128 @@ $ docker exec employees_app bundle install
 $ docker exec employees_app rails g uploader Avatar
 ```
 
+作成された `uploaders/avatar_uploader.rb` は、少し編集
+
+```
+class AvatarUploader < CarrierWave::Uploader::Base
+  include CarrierWave::RMagick
+  storage :fog
+
+  def store_dir
+    "#{mounted_as}/#{model.id}"
+  end
+
+  version :thumb do
+    process resize_to_fit: [50, 50]
+  end
+
+  def extension_whitelist
+    %w(jpg jpeg gif png)
+  end
+
+  def filename
+    "avatar.jpg" if original_filename
+  end
+end
+
+```
+
+#### carrierwaveの設定ファイルを作成
+
+下記の様に作成する
+
+`config/initializers/carrerwave.rb`
+
+```
+CarrierWave.configure do |config|
+  config.fog_provider = 'fog/aws'
+  config.fog_credentials = {
+    provider: 'AWS',
+    # AWSアクセスキー
+    aws_access_key_id: ENV['S3_ACCESS_KEY'],
+    # AWSシークレットキー(間違ってもpublic repositoryにcommitしてはいけない)
+    aws_secret_access_key: ENV['S3_SECRET_ACCESS_KEY'],
+    # S3リージョン(TOKYO)
+    region: ENV['S3_REGION'],
+    # S3エンドポイント名(s3-ap-northeast-1.amazonaws.com ※TOKYO)
+    host: ENV['S3_HOST'],
+
+    endpoint: ENV['S3_ENDPOINT'],
+    path_style: true
+  }
+  # バケット名
+  config.fog_directory = ENV['S3_BUCKET']
+  config.asset_host = ENV['S3_ASSET_HOST']
+end
+```
+
+環境変数は、 `docker-compose.yaml` にて設定済み 
 
 #### カラムを追加
 
-Employees Modelに、Avatarというカラムを追加する
+usres Modelに、Avatarというカラムを追加する
 
 ```
-$ docker exec employees_app rails g migration AddColumnToEmployees avatar:string
+$ docker exec employees_app rails g migration AddColumnToUsers avatar:string
 ```
 
 migrateも実行
 
 ```
 $ docker exec employees_app rails db:migrate
-== 20170822051319 AddColumnToEmployees: migrating =============================
--- add_column(:employees, :avatar, :string)
-   -> 0.1712s
-== 20170822051319 AddColumnToEmployees: migrated (0.1713s) ====================
 ```
 
 #### モデルを修正
 
-`models/employee.rb` に下記を追加
+`models/user.rb` に下記を追加
 
 ```
 mount_uploader :avatar, AvatarUploader
 ```
+
+#### UsersControllerを修正
+
+avatarのパラメーターを受け取れるように、 `controllers/users_consroller.rb` を修正する
+
+```
+def user_params
+-  params.require(:user).permit(:name, :age)
++  params.require(:user).permit(:name, :age, :avatar)
+end
+```
+
+#### users/indexを修正する
+
+アップロードした画像の表示をするために、下記の通り追加
+
+`views/users/index.html.erb`
+
+```
+<p>
+  <%= image_tag @user.avatar.thumb %>
+  <%= image_tag @user.avatar %>
+</p>
+```
+
+#### users_formを修正する
+
+同じく、画像アップロードを受けつけられるように、下記の通りフォームを追加する
+
+`views/users/_form.html.erb`
+
+```
+<div class="field">
+  <%= form.label :avatar %>
+  <%= form.file_field :avatar, id: :user_avatar %>
+</div>
+```
+
+あとは普通に編集画面で画像を選択して保存すると、minioにアップロードされる。
+
+minioの確認は [localhost:9000/minio/](http://localhost:9000/minio/)にて可能。
+
+`employees/` バケットが作成されているようにしているが、実態は `docker/s3/employees` ディレクトリを作ってあるから。
+
+
+
+S3に対して画像アップロードを行う場合、環境変数を変更するだけで良い（プログラムの修正は不要）。

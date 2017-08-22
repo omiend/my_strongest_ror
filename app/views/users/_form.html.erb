@@ -21,6 +21,11 @@
     <%= form.number_field :age, id: :user_age %>
   </div>
 
+  <div class="field">
+    <%= form.label :avatar %>
+    <%= form.file_field :avatar, id: :user_avatar %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
