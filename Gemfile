@@ -9,7 +9,7 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.3'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'mysql2', '~> 0.3.13'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
@@ -52,3 +52,15 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+################################################################################
+# add on gem's
+################################################################################
+gem 'devise'       # 認証機能周り
+gem 'carrierwave'  # 画像アップロード用
+gem 'fog-aws'      # AWS S3連携用
+gem 'rmagick'      # 画像処理用
+
+group :development do
+  gem 'letter_opener_web'  # localhostで送付されたメールを確認出来るツール
+end
