@@ -9,6 +9,22 @@
   </head>
 
   <body>
+
+    <nav>
+    <% if employee_signed_in? %>
+      <%= link_to 'edit profile', edit_employee_registration_path %>
+      <%= link_to 'sign out', destroy_employee_session_path, method: :delete %>
+      <%= link_to 'letter opener', '/letter_opener' %>
+    <% else %>
+      <%= link_to 'sign up', new_employee_registration_path %>
+      <%= link_to 'sign in', new_employee_session_path %>
+      <%= link_to 'letter opener', '/letter_opener' %>
+    <% end %>
+    </nav>
+    
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
     <%= yield %>
   </body>
 </html>
