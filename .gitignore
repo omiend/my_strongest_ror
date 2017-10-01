@@ -21,5 +21,7 @@
 /yarn-error.log
 
 .byebug_history
+
+docker/s3/employees
 docker/s3/.minio.sys/buckets/employees
 docker/s3/.minio.sys/tmp
