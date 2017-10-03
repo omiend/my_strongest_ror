@@ -1,0 +1,42 @@
+<%= simple_form_for(@employee) do |f| %>
+  <% if @employee.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@employee.errors.count, "error") %> prohibited this @employee from being saved:</h2>
+
+      <ul>
+      <% @employee.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, id: :employee_last_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, id: :employee_first_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_kana_name %>
+    <%= f.text_field :last_kana_name, id: :employee_last_kana_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :first_kana_name %>
+    <%= f.text_field :first_kana_name, id: :employee_first_kana_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :age %>
+    <%= f.number_field :age, id: :employee_age %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

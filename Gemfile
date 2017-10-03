@@ -57,9 +57,15 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # add on gem's
 ################################################################################
 gem 'devise'       # 認証機能周り
-gem 'carrierwave'  # 画像アップロード用
-gem 'fog-aws'      # AWS S3連携用
-gem 'rmagick'      # 画像処理用
+
+gem 'jquery-rails'       # BootstrapがjQueryに依存しているため
+gem 'bootstrap-sass'     # Bootstrap本体
+gem 'autoprefixer-rails' # 自動でベンダープレフィックスをつけてくれる
+gem 'simple_form'        # フォーム簡易作成
+
+gem 'carrierwave' # 画像アップロード用
+gem 'fog-aws'     # AWS S3連携用
+gem 'rmagick'     # 画像処理用
 
 group :development do
   gem 'letter_opener_web'  # localhostで送付されたメールを確認出来るツール

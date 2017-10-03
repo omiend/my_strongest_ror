@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
 
-  devise_for :employees
   root "pages#index"
 
-  resources :users
+  # Account(users)
+  devise_for :users
+
+  # Employees
+  resources :employees
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

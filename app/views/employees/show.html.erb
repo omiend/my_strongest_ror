@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <%= image_tag @employee.avatar %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= "#{@employee.last_kana_name} #{@employee.first_kana_name}" %><br/>
+  <%= "#{@employee.last_name} #{@employee.first_name}" %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @employee.age %>
+</p>
+
+<%= link_to 'Edit', edit_employee_path(@employee) %> |
+<%= link_to 'Back', employees_path %>
