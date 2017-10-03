@@ -1,0 +1,33 @@
+<h1>アイコン変更画面</h1>
+
+<form>
+  <%= hidden_field_tag "employee_id", @employee.id %>
+  <%= file_field_tag 'employee[avatar]' %>
+  <%= button_tag :submit, :id => "submitBtn" %>
+  <% if @employee.persisted? && @employee.avatar? %>
+    <%= link_to "削除", delete_avatar_path, method: :delete %>
+  <% end %>
+  <%= link_to "キャンセル", employees_path %>
+  <% if @employee.persisted? && @employee.avatar? %>
+    <div id="crop_area_box">
+      <%= image_tag @employee.avatar, :id => "crop_image", :html => [:width => "600px"] %>
+    </div>
+  <% else %>
+    <div id="crop_area_box"><img id="crop_image" /></div>
+  <% end %>
+  <div id="crop_preview"></div>
+</form>
+
+<!-- Cropper.jsは、当該ページ個別に読み込む -->
+<%= stylesheet_link_tag    'cropper.min' %>
+<%= javascript_include_tag 'cropper.min' %>
+<%= javascript_include_tag 'edit_avatar' %>
+
+<style>
+  #crop_area_box {
+    display: block;
+    width: 600px;
+    height: 600px;
+    overflow: hidden;
+  }
+</style>

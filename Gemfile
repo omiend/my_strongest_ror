@@ -56,6 +56,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 ################################################################################
 # add on gem's
 ################################################################################
+gem 'dotenv-rails'         # 環境変数
+
 gem 'devise'       # 認証機能周り
 
 gem 'jquery-rails'       # BootstrapがjQueryに依存しているため
@@ -69,4 +71,7 @@ gem 'rmagick'     # 画像処理用
 
 group :development do
   gem 'letter_opener_web'  # localhostで送付されたメールを確認出来るツール
+  gem 'better_errors'        # デバッグで利用
+  gem 'binding_of_caller'    # デバッグで利用
+  gem 'pry-byebug'           # デバッグを実施(Ruby 2.0以降で動作する)
 end

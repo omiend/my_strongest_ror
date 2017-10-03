@@ -1,5 +1,8 @@
 class EmployeesController < ApplicationController
-  before_action :set_employee, only: [:show, :edit, :update, :destroy]
+  before_action :set_employee, only: [
+    :show, :edit, :update, :destroy,
+    :edit_avatar, :update_avatar, :delete_avatar
+  ]
 
   # GET /employee
   # GET /employee.json
@@ -61,7 +64,36 @@ class EmployeesController < ApplicationController
     end
   end
 
+  def edit_avatar
+  end
+
+  def update_avatar
+    respond_to do |format|
+      if @employee.update(update_avatar_params)
+        format.html { redirect_to edit_avatar_path, notice: 'アイコンを変更しました' }
+        format.json { render :show, status: :ok, location: edit_avatar_path }
+      else
+        binding.pry
+        format.html { render :edit_avatar }
+        format.json { render json: @employee.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def delete_avatar
+    respond_to do |format|
+      if @employee.update({remove_avatar: true})
+        format.html { redirect_to edit_avatar_path, notice: 'アイコンを削除しました' }
+        format.json { render :show, status: :ok, location: edit_avatar_path }
+      else
+        format.html { render :edit_avatar }
+        format.json { render json: @employee.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_employee
       @employee = Employee.find(params[:id])
@@ -81,6 +113,13 @@ class EmployeesController < ApplicationController
     def edit_avatar_params
       params.require(:employee).permit(
         :employee_id,
+        :avatar
+      )
+    end
+
+    # アイコン変更
+    def update_avatar_params
+      params.require(:employee).permit(
         :avatar
       )
     end
