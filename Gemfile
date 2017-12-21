@@ -69,6 +69,9 @@ gem 'carrierwave' # 画像アップロード用
 gem 'fog-aws'     # AWS S3連携用
 gem 'rmagick'     # 画像処理用
 
+gem 'wkhtmltopdf-binary' # PDF生成
+gem 'wicked_pdf'         # PDF生成
+
 group :development do
   gem 'letter_opener_web'  # localhostで送付されたメールを確認出来るツール
   gem 'better_errors'        # デバッグで利用

@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   patch  '/avatar/:id/update', to: 'employees#update_avatar', as: 'update_avatar'
   delete '/avatar/:id/delete', to: 'employees#delete_avatar', as: 'delete_avatar'
 
+  # PDF出力
+  get '/pdf-download', to: 'pdf#download', as: 'pdf_download', :format => 'pdf'
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
