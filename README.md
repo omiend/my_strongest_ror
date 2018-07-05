@@ -68,6 +68,14 @@ $ docker-compose up
 $ brew install rbenv
 ```
 
+#### .bash_profile
+
+ターミナル起動時にrbenvの初期化を行うコマンドを、　`~/.bash_profile` に追記
+
+```
+echo `eval "$(rbenv init -)"` >> ~/.bash_profile
+```
+
 #### bundler 
 
 `rbenv` でインストール
