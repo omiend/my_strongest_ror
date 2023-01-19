@@ -78,7 +78,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.10)
     crass (1.0.5)
     debug_inspector (0.0.3)
     devise (4.7.1)
@@ -111,8 +111,8 @@ GEM
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
     formatador (0.2.5)
-    globalid (0.4.0)
-      activesupport (>= 4.2.0)
+    globalid (1.0.1)
+      activesupport (>= 5.0)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     ipaddress (0.8.3)
@@ -146,7 +146,7 @@ GEM
     mime-types-data (3.2020.1104)
     mini_mime (0.1.4)
     mini_portile2 (2.5.0)
-    minitest (5.14.3)
+    minitest (5.17.0)
     multi_json (1.12.1)
     mysql2 (0.3.21)
     nio4r (2.1.0)
@@ -237,7 +237,7 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.3)
-    tzinfo (1.2.9)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
